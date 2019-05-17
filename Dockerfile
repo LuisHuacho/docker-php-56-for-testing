@@ -11,11 +11,15 @@ RUN apt-get update && apt-get install -y \
     libmcrypt-dev libxml2-dev libpq-dev \
     jpegoptim optipng gifsicle libjpeg-dev \
     libfreetype6-dev libgd-dev \
+    libz-dev libmemcached-dev libmemcached11 libmemcachedutil2 build-essential \
     libwebp-dev libjpeg62-turbo-dev libxpm-dev
 
 RUN ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so && \
     ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so && \
-    pecl install apcu-4.0.11
+    pecl install apcu-4.0.11 \
+    pecl install memcached-2.2.0 &&\
+    echo extension=memcached.so >> /usr/local/etc/php/conf.d/memcached.ini
+
 
 RUN docker-php-ext-configure gd \
     --with-gd \
